@@ -41,7 +41,7 @@
                         },
                         {
                             "name": "developmentEnvironment",
-                            "type": "Microsoft.Common.DropDown",
+                            "type": "Microsoft.Common.OptionsGroup",
                             "label": "Development Environment",
                             "subLabel": "",
                             "defaultValue": "false",
