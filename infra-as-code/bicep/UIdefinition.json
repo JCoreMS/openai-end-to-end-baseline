@@ -1,157 +1,166 @@
 {
-	"$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json",
-	"view": {
-		"kind": "Form",
-		"properties": {
-			"title": "Open AI End-to-End Baseline",
-			"steps": [
-				{
-					"name": "basics",
-					"label": "Basics",
-					"elements": [
-						{
-							"name": "resourceScope",
-							"type": "Microsoft.Common.ResourceScope",
-							"instanceDetailsLabel": "Open AI Details"
-						},
-						{
-							"name": "baseName",
-							"type": "Microsoft.Common.TextBox",
-							"label": "Base Name",
-							"subLabel": "",
-							"defaultValue": "",
-							"toolTip": "This is the base name for each Azure resource name (6-8 chars)",
-							"constraints": {
-								"required": true,
-								"regex": "",
-								"validationMessage": "",
-								"validations": [
-									{
-										"isValid": "[or(or(empty(steps('basics').baseName),and(not(startsWith(steps('basics').baseName,'[[')),startsWith(steps('basics').baseName,'['),endsWith(steps('basics').baseName,']'),greater(indexOf(steps('basics').baseName,'('),-1),greater(indexOf(steps('basics').baseName,')'),-1))),greaterOrEquals(length(steps('basics').baseName),6))]",
-										"message": "The value must have a length of at least 6."
-									},
-									{
-										"isValid": "[or(or(empty(steps('basics').baseName),and(not(startsWith(steps('basics').baseName,'[[')),startsWith(steps('basics').baseName,'['),endsWith(steps('basics').baseName,']'),greater(indexOf(steps('basics').baseName,'('),-1),greater(indexOf(steps('basics').baseName,')'),-1))),lessOrEquals(length(steps('basics').baseName),8))]",
-										"message": "The value must have a length of at most 8."
-									}
-								]
-							},
-							"infoMessages": [],
-							"visible": true
-						},
-						{
-							"name": "developmentEnvironment",
-							"type": "Microsoft.Common.OptionsGroup",
-							"label": "Development Environment",
-							"subLabel": "",
-							"defaultValue": "No",
-							"toolTip": "Optional. When 'Yes' will deploy a cost-optimised environment for development purposes. Note that when this param is 'Yes', the deployment is not suitable or recommended for Production environments. Default = false.",
-							"constraints": {
-								"required": true,
-								"allowedValues": [
-									{
-										"label": "Yes",
-										"value": true
-									},
-									{
-										"label": "No",
-										"value": false
-									}
-								],
-								"validations": []
-							},
-							"infoMessages": [],
-							"visible": true
-						},
-						{
-							"name": "customDomainName",
-							"type": "Microsoft.Common.TextBox",
-							"label": "Custom Domain Name",
-							"subLabel": "",
-							"defaultValue": "contoso.com",
-							"toolTip": "Domain name to use for App Gateway",
-							"constraints": {
-								"required": false,
-								"regex": "",
-								"validationMessage": "",
-								"validations": []
-							},
-							"infoMessages": [],
-							"visible": true
-						},
-						{
-							"name": "appGatewayListenerCertificate",
-							"type": "Microsoft.KeyVault.KeyVaultCertificateSelector",
-							"visible": true,
-							"toolTip": "Select App Gateway certificate",
-							"scope": {
-								"subscriptionId": "[steps('basics').resourceScope.subscription.subscriptionId]",
-								"location": "[steps('basics').resourceScope.location.name]"
-							},
-							"label": "KeyVault certificate for App Gateway"
-						},
-						{
-							"name": "publishFileName",
-							"type": "Microsoft.Common.TextBox",
-							"label": "Publish File Name",
-							"subLabel": "",
-							"defaultValue": "chatui.zip",
-							"toolTip": "The name of the web deploy file. The file should reside in a deploy container in the storage account. Defaults to chatui.zip",
-							"constraints": {
-								"required": false,
-								"regex": "",
-								"validationMessage": "",
-								"validations": []
-							},
-							"infoMessages": [],
-							"visible": true
-						},
-						{
-							"name": "jumpBoxAdminPassword",
-							"type": "Microsoft.Common.PasswordBox",
-							"label": {
-								"password": "Jump Box Admin Password",
-								"confirmPassword": "Confirm password"
-							},
-							"defaultValue": "",
-							"toolTip": "Specifies the password of the administrator account on the Windows jump box.\n\nComplexity requirements: 3 out of 4 conditions below need to be fulfilled:\n- Has lower characters\n- Has upper characters\n- Has a digit\n- Has a special character\n\nDisallowed values: \"abc@123\", \"P@$$w0rd\", \"P@ssw0rd\", \"P@ssword123\", \"Pa$$word\", \"pass@word1\", \"Password!\", \"Password1\", \"Password22\", \"iloveyou!\"",
-							"constraints": {
-								"required": true,
-								"regex": "",
-								"validationMessage": "",
-								"validations": [
-									{
-										"isValid": "[or(or(empty(steps('basics').jumpBoxAdminPassword),and(not(startsWith(steps('basics').jumpBoxAdminPassword,'[[')),startsWith(steps('basics').jumpBoxAdminPassword,'['),endsWith(steps('basics').jumpBoxAdminPassword,']'),greater(indexOf(steps('basics').jumpBoxAdminPassword,'('),-1),greater(indexOf(steps('basics').jumpBoxAdminPassword,')'),-1))),greaterOrEquals(length(steps('basics').jumpBoxAdminPassword),8))]",
-										"message": "The value must have a length of at least 8."
-									},
-									{
-										"isValid": "[or(or(empty(steps('basics').jumpBoxAdminPassword),and(not(startsWith(steps('basics').jumpBoxAdminPassword,'[[')),startsWith(steps('basics').jumpBoxAdminPassword,'['),endsWith(steps('basics').jumpBoxAdminPassword,']'),greater(indexOf(steps('basics').jumpBoxAdminPassword,'('),-1),greater(indexOf(steps('basics').jumpBoxAdminPassword,')'),-1))),lessOrEquals(length(steps('basics').jumpBoxAdminPassword),123))]",
-										"message": "The value must have a length of at most 123."
-									}
-								]
-							},
-							"options": {
-								"hideConfirmation": true
-							},
-							"visible": true
-						}
-					]
-				}
-			]
-		},
-		"outputs": {
-			"kind": "Subscription",
-			"location": "[steps('basics').resourceScope.location.name]",
-			"subscriptionId": "[steps('basics').resourceScope.resourceGroup.id]",
-			"parameters": {
-				"location": "[steps('basics').resourceScope.location.name]",
-				"baseName": "[steps('basics').baseName]",
-				"developmentEnvironment": "[steps('basics').developmentEnvironment]",
-				"customDomainName": "[steps('basics').customDomainName]",
-				"appGatewayListenerCertificate": "[steps('basics').appGatewayListenerCertificate]",
-				"publishFileName": "[steps('basics').publishFileName]",
-				"jumpBoxAdminPassword": "[steps('basics').jumpBoxAdminPassword]"
-			}
-		}
-	}
+    "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json",
+    "view": {
+        "kind": "Form",
+        "properties": {
+            "title": "Open AI End-to-End Baseline",
+            "steps": [
+                {
+                    "name": "basics",
+                    "label": "Basics",
+                    "elements": [
+                        {
+                            "name": "resourceScope",
+                            "type": "Microsoft.Common.ResourceScope",
+                            "instanceDetailsLabel": "Open AI Details"
+                        },
+                        {
+                            "name": "baseName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Base Name",
+                            "subLabel": "",
+                            "defaultValue": "",
+                            "toolTip": "This is the base name for each Azure resource name (6-8 chars)",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "",
+                                "validations": [
+                                    {
+                                        "isValid": "[or(or(empty(steps('basics').baseName),and(not(startsWith(steps('basics').baseName,'[[')),startsWith(steps('basics').baseName,'['),endsWith(steps('basics').baseName,']'),greater(indexOf(steps('basics').baseName,'('),-1),greater(indexOf(steps('basics').baseName,')'),-1))),greaterOrEquals(length(steps('basics').baseName),6))]",
+                                        "message": "The value must have a length of at least 6."
+                                    },
+                                    {
+                                        "isValid": "[or(or(empty(steps('basics').baseName),and(not(startsWith(steps('basics').baseName,'[[')),startsWith(steps('basics').baseName,'['),endsWith(steps('basics').baseName,']'),greater(indexOf(steps('basics').baseName,'('),-1),greater(indexOf(steps('basics').baseName,')'),-1))),lessOrEquals(length(steps('basics').baseName),8))]",
+                                        "message": "The value must have a length of at most 8."
+                                    }
+                                ]
+                            },
+                            "infoMessages": [],
+                            "visible": true
+                        },
+                        {
+                            "name": "developmentEnvironment",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Development Environment",
+                            "subLabel": "",
+                            "defaultValue": "No",
+                            "toolTip": "Optional. When 'Yes' will deploy a cost-optimised environment for development purposes. Note that when this param is 'Yes', the deployment is not suitable or recommended for Production environments. Default = false.",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ],
+                                "validations": []
+                            },
+                            "infoMessages": [],
+                            "visible": true
+                        },
+                        {
+                            "name": "customDomainName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Custom Domain Name",
+                            "subLabel": "",
+                            "defaultValue": "contoso.com",
+                            "toolTip": "Domain name to use for App Gateway",
+                            "constraints": {
+                                "required": false,
+                                "regex": "",
+                                "validationMessage": "",
+                                "validations": []
+                            },
+                            "infoMessages": [],
+                            "visible": true
+                        },
+                        {
+                            "name": "appGatewayListenerCertificate",
+                            "type": "Microsoft.Common.PasswordBox",
+                            "label": {
+                                "password": "App Gateway Listener Certificate",
+                                "confirmPassword": "Confirm password"
+                            },
+                            "defaultValue": "",
+                            "toolTip": "The certificate data for app gateway TLS termination. The value is base64 encoded",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "",
+                                "validations": []
+                            },
+                            "options": {
+                                "hideConfirmation": true
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "publishFileName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Publish File Name",
+                            "subLabel": "",
+                            "defaultValue": "chatui.zip",
+                            "toolTip": "The name of the web deploy file. The file should reside in a deploy container in the storage account. Defaults to chatui.zip",
+                            "constraints": {
+                                "required": false,
+                                "regex": "",
+                                "validationMessage": "",
+                                "validations": []
+                            },
+                            "infoMessages": [],
+                            "visible": true
+                        },
+                        {
+                            "name": "jumpBoxAdminPassword",
+                            "type": "Microsoft.Common.PasswordBox",
+                            "label": {
+                                "password": "Jump Box Admin Password",
+                                "confirmPassword": "Confirm password"
+                            },
+                            "defaultValue": "",
+                            "toolTip": "Specifies the password of the administrator account on the Windows jump box.\n\nComplexity requirements: 3 out of 4 conditions below need to be fulfilled:\n- Has lower characters\n- Has upper characters\n- Has a digit\n- Has a special character\n\nDisallowed values: \"abc@123\", \"P@$$w0rd\", \"P@ssw0rd\", \"P@ssword123\", \"Pa$$word\", \"pass@word1\", \"Password!\", \"Password1\", \"Password22\", \"iloveyou!\"",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "",
+                                "validations": [
+                                    {
+                                        "isValid": "[or(or(empty(steps('basics').jumpBoxAdminPassword),and(not(startsWith(steps('basics').jumpBoxAdminPassword,'[[')),startsWith(steps('basics').jumpBoxAdminPassword,'['),endsWith(steps('basics').jumpBoxAdminPassword,']'),greater(indexOf(steps('basics').jumpBoxAdminPassword,'('),-1),greater(indexOf(steps('basics').jumpBoxAdminPassword,')'),-1))),greaterOrEquals(length(steps('basics').jumpBoxAdminPassword),8))]",
+                                        "message": "The value must have a length of at least 8."
+                                    },
+                                    {
+                                        "isValid": "[or(or(empty(steps('basics').jumpBoxAdminPassword),and(not(startsWith(steps('basics').jumpBoxAdminPassword,'[[')),startsWith(steps('basics').jumpBoxAdminPassword,'['),endsWith(steps('basics').jumpBoxAdminPassword,']'),greater(indexOf(steps('basics').jumpBoxAdminPassword,'('),-1),greater(indexOf(steps('basics').jumpBoxAdminPassword,')'),-1))),lessOrEquals(length(steps('basics').jumpBoxAdminPassword),123))]",
+                                        "message": "The value must have a length of at most 123."
+                                    }
+                                ]
+                            },
+                            "options": {
+                                "hideConfirmation": true
+                            },
+                            "visible": true
+                        }
+                    ]
+                }
+            ]
+        },
+        "outputs": {
+            "kind": "Subscription",
+            "location": "[steps('basics').resourceScope.location.name]",
+            "subscriptionId": "[steps('basics').resourceScope.resourceGroup.id]",
+            "parameters": {
+                "location": "[steps('basics').resourceScope.location.name]",
+                "baseName": "[steps('basics').baseName]",
+                "developmentEnvironment": "[steps('basics').developmentEnvironment]",
+                "customDomainName": "[steps('basics').customDomainName]",
+                "appGatewayListenerCertificate": "[steps('basics').appGatewayListenerCertificate]",
+                "publishFileName": "[steps('basics').publishFileName]",
+                "jumpBoxAdminPassword": "[steps('basics').jumpBoxAdminPassword]"
+            }
+        }
+    }
 }
