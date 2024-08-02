@@ -153,7 +153,6 @@
             "location": "[steps('basics').resourceScope.location.name]",
             "subscriptionId": "[steps('basics').resourceScope.resourceGroup.id]",
             "parameters": {
-                "location": "[steps('basics').resourceScope.location.name]",
                 "baseName": "[steps('basics').baseName]",
                 "developmentEnvironment": "[steps('basics').developmentEnvironment]",
                 "customDomainName": "[steps('basics').customDomainName]",
