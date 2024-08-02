@@ -19,14 +19,6 @@
                             }
                         },
                         {
-                            "type":"Microsoft.Common.ResourceGroupSelector",
-                            "name": "resourceGroup",
-                            "allowedMode": "UseExisting",
-                            "scope": {
-                                "subscriptionId": "[steps('basics').resourceScope.subscription.subscriptionId]"
-                            }
-                        },
-                        {
                             "name": "baseName",
                             "type": "Microsoft.Common.TextBox",
                             "label": "Base Name",
