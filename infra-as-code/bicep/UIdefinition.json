@@ -12,11 +12,7 @@
                         {
                             "name": "resourceScope",
                             "type": "Microsoft.Common.ResourceScope",
-                            "location": {
-                                "resourceTypes": [
-                                    "microsoft.resources/resourcegroups"
-                                ]
-                            }
+                            "instanceDetailsLabel": "Open AI Details"
                         },
                         {
                             "name": "baseName",
@@ -153,9 +149,9 @@
             ]
         },
         "outputs": {
-            "kind": "ResourceGroup",
+            "kind": "Subscription",
             "location": "[steps('basics').resourceScope.location.name]",
-            "resourceGroupId": "[steps('basics').resourceScope.resourceGroup.id]",
+            "subscriptionId": "[steps('basics').resourceScope.resourceGroup.id]",
             "parameters": {
                 "location": "[steps('basics').resourceScope.location.name]",
                 "baseName": "[steps('basics').baseName]",
