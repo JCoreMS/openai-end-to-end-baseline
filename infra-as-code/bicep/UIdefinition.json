@@ -155,6 +155,7 @@
             "parameters": {
                 "baseName": "[steps('basics').baseName]",
                 "developmentEnvironment": "[steps('basics').developmentEnvironment]",
+                "location": "[steps('basics').resourceScope.location.name]",
                 "customDomainName": "[steps('basics').customDomainName]",
                 "appGatewayListenerCertificate": "[steps('basics').appGatewayListenerCertificate]",
                 "publishFileName": "[steps('basics').publishFileName]",
