@@ -65,6 +65,8 @@ Use the following to deploy the infrastructure.
 
 ### Deploy the infrastructure
 
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FJCoreMS%2Fopenai-end-to-end-baseline%2Fmain%2Finfra-as-code%2Fbicep%2Fmain.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FJCoreMS%2Fopenai-end-to-end-baseline%2Fmain%2Finfra-as-code%2Fbicep%2FUIdefinition.json) [![Deploy to Azure Gov](https://aka.ms/deploytoazuregovbutton)](https://portal.azure.us/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FJCoreMS%2Fopenai-end-to-end-baseline%2Fmain%2Finfra-as-code%2Fbicep%2Fmain.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FJCoreMS%2Fopenai-end-to-end-baseline%2Fmain%2Finfra-as-code%2Fbicep%2FUIdefinition.json)
+
 The following steps are required to deploy the infrastructure from the command line.
 
 1. In your bash shell (or VSCode session) with Azure CLI and Bicep installed, navigate to the root directory of this repository (AppServicesRI)
